@@ -4,7 +4,4 @@
 ## How to start on local machine
 
 
-## How to test
-
-
-set upstream 
+## How to test!
