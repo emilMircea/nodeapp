@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-const slug = require('slugs');
+mongoose.Promise = global.Promise; // enables async/await
+const slug = require('slugs'); // used to generate friendly urls
 
 const storeSchema = new mongoose.Schema({
   name: {
