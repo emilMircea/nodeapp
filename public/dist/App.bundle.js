@@ -73,6 +73,82 @@
 "use strict";
 
 
+__webpack_require__(2);
+
+var _bling = __webpack_require__(1);
+
+var _autocomplete = __webpack_require__(4);
+
+var _autocomplete2 = _interopRequireDefault(_autocomplete);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _autocomplete2.default)((0, _bling.$)('#address'), (0, _bling.$)('#lat'), (0, _bling.$)('#lng'));
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var $ = document.querySelector.bind(document);
+var $$ = document.querySelectorAll.bind(document);
+
+Node.prototype.on = window.on = function (name, fn) {
+  this.addEventListener(name, fn);
+};
+
+NodeList.prototype.__proto__ = Array.prototype; // eslint-disable-line
+
+NodeList.prototype.on = NodeList.prototype.addEventListener = function (name, fn) {
+  this.forEach(function (elem) {
+    elem.on(name, fn);
+  });
+};
+
+exports.$ = $;
+exports.$$ = $$;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 3 */,
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+function autocomplete(input, latInput, lngInput) {
+  // skip this fn from running if no input on page
+  if (!input) return;
+  var dropdown = new google.maps.places.Autocomplete(input);
+  //gmaps eventListener
+  dropdown.addListener('place_changed', function () {
+    var place = dropdown.getPlace();
+    latInput.value = place.geometry.location.lat();
+    lngInput.value = place.geometry.location.lng();
+  });
+
+  // if someone hits enter in the address field don't submit the form!
+  input.on('keydown', function (e) {
+    if (e.keyCode === 13) e.preventDefault();
+  });
+}
+
+exports.default = autocomplete;
+
 /***/ })
 /******/ ]);
 //# sourceMappingURL=App.bundle.js.map
