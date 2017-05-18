@@ -9,9 +9,19 @@ router.get('/', catchErrors( storeController.getStores ) );
 router.get('/stores', catchErrors( storeController.getStores ) );
 
 router.get('/add', storeController.addStore);
-router.post('/add', catchErrors(storeController.createStore));
-router.post('/add/:id', catchErrors(storeController.updateStore));
-
+// add new resource
+router.post('/add',
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.createStore)
+);
+// update resource
+router.post('/add/:id',
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.updateStore)
+);
+// edit resource
 router.get('/stores/:id/edit', catchErrors(storeController.editStore) )
 
 
