@@ -24,5 +24,7 @@ router.post('/add/:id',
 // edit resource
 router.get('/stores/:id/edit', catchErrors(storeController.editStore) )
 
+// view single resource page
+router.get('/store/:slug', catchErrors(storeController.getStoreBySlug))
 
 module.exports = router;
