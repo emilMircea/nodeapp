@@ -1,25 +1,40 @@
 const mongoose = require('mongoose');
-const Store = mongoose.model('Store')
+const Store = mongoose.model('Store');
+
+const multer = require('multer');
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next){
+    const isPhoto = file.mymetype.startsWith('image/');
+    if (isPhoto) {
+      next(null, true)
+    } else {
+      next({message: `That filetype isn't allowed`}, false)
+    }
+  }
+};
 
 exports.homePage = (req, res) => {
   res.render('index', {title: 'Home page'})
-}
+};
 
 exports.addStore = (req, res) => {
   res.render('editStore', {title: 'Add store'})
-}
+};
+// uploading photos
+exports.upload = multer(multerOptions).single('photo');
 
 exports.createStore = async (req, res) => {
   const store = await( new Store(req.body).save() )
   req.flash('success', `Succesfully created ${store.name}. Care to leave a review?`);
   res.redirect(`/store/${store.slug}`);
-}
+};
 
 exports.getStores = async (req, res) => {
   // query the db for a list of all stores
   const stores = await Store.find();
   res.render('stores', {title: 'stores', stores: stores});
-}
+};
 
 exports.editStore = async (req, res) => {
   // find store by id
@@ -28,7 +43,7 @@ exports.editStore = async (req, res) => {
   // confirm owner of store to update
 
   // render edit form
-}
+};
 
 exports.updateStore  = async (req, res) => {
   // set location data to be point after each update
@@ -44,4 +59,4 @@ exports.updateStore  = async (req, res) => {
   ).exec();
   req.flash('success', `Succesfully updated <strong>${store.name}</strong>. <a href='/stores/${store.slug}'>View Store</a>`)
   res.redirect(`/stores/${store._id}/edit`)
-}
+};
